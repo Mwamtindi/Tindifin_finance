@@ -1,0 +1,34 @@
+{
+  "version": "5",
+  "dialect": "pg",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "5",
+      "when": 1718556321597,
+      "tag": "0000_bouncy_grey_gargoyle",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "5",
+      "when": 1718563767355,
+      "tag": "0001_crazy_king_bedlam",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1719037127716,
+      "tag": "0002_wonderful_ser_duncan",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "5",
+      "when": 1719071417591,
+      "tag": "0003_brown_lilith",
+      "breakpoints": true
+    }
+  ]
+}

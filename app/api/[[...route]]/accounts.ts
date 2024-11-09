@@ -7,7 +7,8 @@ import { clerkMiddleware, getAuth } from "@hono/clerk-auth";
 
 import { db } from "@/db/drizzle";
 import { accounts, insertAccountSchema } from "@/db/schema";
-
+//new
+import { recordAction } from "@/utils/auditLogger";
 
 const app = new Hono()
   .get("/",
@@ -26,6 +27,9 @@ const app = new Hono()
     })
     .from(accounts)
     .where(eq(accounts.userId, auth.userId));
+
+    //log the action 1 new line
+    await recordAction(auth.userId, "Fetched account list");
 
    return c.json({ data });
   })
@@ -64,6 +68,9 @@ const app = new Hono()
         return c.json({ error: "Not found" }, 404);
       }
 
+      //Log the action 1 new line
+      await recordAction(auth.userId, `Fetched account details for ID: ${id}`);
+
       return c.json({ data });
     }
   )
@@ -86,6 +93,9 @@ const app = new Hono()
         userId: auth.userId,
         ...values,
       }).returning();
+
+      // Log the action 1 new line
+      await recordAction(auth.userId, "Created a new account");
 
       return c.json({ data });
     })
@@ -117,6 +127,9 @@ const app = new Hono()
         .returning({
           id: accounts.id,
         });
+
+        // Log the action 1 new line
+        await recordAction(auth.userId, `Bulk deleted accounts with IDs: ${values.ids.join(", ")}`);
 
         return c.json({ data });
     },
@@ -164,6 +177,9 @@ const app = new Hono()
           return c.json({ error: "Not found" }, 404);
         }
 
+        // Log the action 1 new line 
+        await recordAction(auth.userId, `Updated account with ID: ${id}`);
+
         return c.json({ data });
     },
   )
@@ -203,6 +219,9 @@ const app = new Hono()
         if (!data) {
           return c.json({ error: "Not found" }, 404);
         }
+
+        // Log the action
+        await recordAction(auth.userId, `Deleted account with ID: ${id}`);
 
         return c.json({ data });
     },

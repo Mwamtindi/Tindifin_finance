@@ -15,16 +15,17 @@ export const LandingNavbar = () => {
     return (
         <nav className="p-4 bg-transparent flex justify-between">
            <Link href="/">
-              <div className="relative h-8 w-8 mr-4 gap-10">
+              <div className="relative h-8 w-auto mr-4 flex items-center gap-2">
                 <Image
-                  fill
+                  width={32}
+                  height={32}
                   alt="Logo"
                   src="/logo.svg"
                 />
-              </div>
-              <h1 className={cn("text-2xl font-bold text-white", font.className)}>
+                <h1 className={cn("text-2xl font-bold text-white", font.className)}>
                 Tindifin
-              </h1>
+                </h1>
+              </div>
            </Link>
         </nav>
     )

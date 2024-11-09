@@ -8,6 +8,9 @@ import { clerkMiddleware, getAuth } from "@hono/clerk-auth";
 import { db } from "@/db/drizzle";
 import { categories, insertCategorySchema } from "@/db/schema";
 
+//new
+import { recordAction } from "@/utils/auditLogger";
+
 
 const app = new Hono()
   .get("/",
@@ -26,6 +29,9 @@ const app = new Hono()
     })
     .from(categories)
     .where(eq(categories.userId, auth.userId));
+
+    //1 new line
+    await recordAction(auth.userId, "Fetched category list");
 
    return c.json({ data });
   })
@@ -63,6 +69,8 @@ const app = new Hono()
       if (!data) {
         return c.json({ error: "Not found" }, 404);
       }
+      //1 new line
+      await recordAction(auth.userId, `Fetched category details for ID: ${id}`);
 
       return c.json({ data });
     }
@@ -86,6 +94,8 @@ const app = new Hono()
         userId: auth.userId,
         ...values,
       }).returning();
+      //1 new line
+      await recordAction(auth.userId, "Created a new category");
 
       return c.json({ data });
     })
@@ -117,6 +127,8 @@ const app = new Hono()
         .returning({
           id: categories.id,
         });
+        //1 new line
+        await recordAction(auth.userId, `Bulk deleted categories with IDs: ${values.ids.join(", ")}`);
 
         return c.json({ data });
     },
@@ -164,6 +176,9 @@ const app = new Hono()
           return c.json({ error: "Not found" }, 404);
         }
 
+        //1 new line 
+        await recordAction(auth.userId, `Updated category with ID: ${id}`);
+
         return c.json({ data });
     },
   )
@@ -203,6 +218,8 @@ const app = new Hono()
         if (!data) {
           return c.json({ error: "Not found" }, 404);
         }
+        //1 new line
+        await recordAction(auth.userId, `Deleted category with ID: ${id}`);
 
         return c.json({ data });
     },

@@ -4,6 +4,7 @@ import { relations } from "drizzle-orm";
 import { 
     integer,
     pgTable,
+    serial,
     text,
     timestamp
  } from "drizzle-orm/pg-core";
@@ -63,3 +64,17 @@ export const transactionsRelations = relations(transactions, ({ one }) => ({
 export const insertTransactionSchema = createInsertSchema(transactions, {
     date: z.coerce.date(),
 });
+
+export const auditLogs = pgTable("audit_logs", {
+    id: serial("id").primaryKey(),
+    userId: text("user_id").notNull(), // Clerk userId
+    action: text("action").notNull(),
+    timestamp: timestamp("timestamp").defaultNow(), // Automatically set timestamp
+  });
+  
+export type AuditLog = {
+    id: number;
+    userId: string;
+    action: string;
+    timestamp: Date | null;
+};

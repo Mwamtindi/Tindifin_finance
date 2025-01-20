@@ -69,7 +69,7 @@ export const auditLogs = pgTable("audit_logs", {
     id: serial("id").primaryKey(),
     userId: text("user_id").notNull(), // Clerk userId
     action: text("action").notNull(),
-    timestamp: timestamp("timestamp").defaultNow(), // Automatically set timestamp
+    timestamp: timestamp("timestamp").defaultNow(), // Automatically set  the timestamp
   });
   
 export type AuditLog = {

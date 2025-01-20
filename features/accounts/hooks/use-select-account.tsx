@@ -56,7 +56,7 @@ export const useSelectAccount = (): [() => JSX.Element, () => Promise<unknown>] 
                       Select Account
                     </DialogTitle>
                     <DialogDescription>
-                       Please select an account to continue.
+                       Please select an account to continue...
                     </DialogDescription>
                 </DialogHeader>
                 <Select

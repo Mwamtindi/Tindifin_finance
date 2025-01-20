@@ -16,7 +16,7 @@ const AuditLogs = () => {
   useEffect(() => {
     const fetchLogs = async () => {
       try {
-        const response = await fetch("/api/audit-logs"); // Call the API endpoint
+        const response = await fetch("/api/audit-logs"); // Call the API endpoint to be used
         if (!response.ok) {
           throw new Error("Failed to fetch logs");
         }

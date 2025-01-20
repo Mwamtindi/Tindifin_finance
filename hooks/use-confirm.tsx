@@ -39,6 +39,7 @@ export const useConfirm = (
             <DialogContent>
                 <DialogHeader>
                     <DialogTitle>{title}</DialogTitle>
+                    
                     <DialogDescription>{message}</DialogDescription>
                 </DialogHeader>
                 <DialogFooter className="pt-2">

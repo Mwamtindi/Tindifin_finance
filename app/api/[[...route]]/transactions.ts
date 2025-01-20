@@ -9,6 +9,9 @@ import { clerkMiddleware, getAuth } from "@hono/clerk-auth";
 import { db } from "@/db/drizzle";
 import { transactions, insertTransactionSchema, categories, accounts } from "@/db/schema";
 
+//new
+import { recordAction } from "@/utils/auditLogger";
+
 
 const app = new Hono()
   .get("/",
@@ -61,6 +64,9 @@ const app = new Hono()
     )
     .orderBy(desc(transactions.date));
 
+    // 1 new line
+    await recordAction(auth.userId, "Fetched transaction list");
+
    return c.json({ data });
   })
   .get(
@@ -103,6 +109,8 @@ const app = new Hono()
       if (!data) {
         return c.json({ error: "Not found" }, 404);
       }
+      // 1 new line
+      await recordAction(auth.userId, `Fetched transaction details for ID: ${id}`);
 
       return c.json({ data });
     }
@@ -125,6 +133,8 @@ const app = new Hono()
         id: createId(),
         ...values,
       }).returning();
+      // 1 new line
+      await recordAction(auth.userId, "Created a new transaction");
 
       return c.json({ data });
     })
@@ -156,6 +166,9 @@ const app = new Hono()
            }))
         )
         .returning();
+
+        // 1 new line
+        await recordAction(auth.userId, "Bulk created transactions ");
 
       return c.json({ data });
     },
@@ -195,6 +208,8 @@ const app = new Hono()
         .returning({
           id: transactions.id,
         });
+        //1 new line 
+        await recordAction(auth.userId, `Bulk deleted transactions with IDs: ${values.ids.join(", ")}`);
 
         return c.json({ data });
     },
@@ -250,6 +265,8 @@ const app = new Hono()
         if (!data) {
           return c.json({ error: "Not found" }, 404);
         }
+        //1 new line
+        await recordAction(auth.userId, `Updated transaction with ID: ${id}`);
 
         return c.json({ data });
     },
@@ -301,6 +318,8 @@ const app = new Hono()
         if (!data) {
           return c.json({ error: "Not found" }, 404);
         }
+        // 1 new line
+        await recordAction(auth.userId, `Deleted transaction with ID: ${id}`);
 
         return c.json({ data });
     },

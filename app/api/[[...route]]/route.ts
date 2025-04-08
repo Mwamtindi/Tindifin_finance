@@ -26,4 +26,4 @@ export const PATCH = handle(app);
 export const DELETE = handle(app);
 
 export type AppType = typeof routes;
-export default auditLogs;
+//export default auditLogs;
